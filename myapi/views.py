@@ -1,14 +1,13 @@
 from argparse import Action
 from django.shortcuts import render
 
-from .models import Sensor
-from .serializers import SensorSerializer
+from .models import Sensor, SensorReading
+from .serializers import SensorSerializer, ReadingSerializer
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
 # Create your views here.
-
 
 class SensorViewSet(ModelViewSet):
     """
@@ -36,3 +35,6 @@ class SensorViewSet(ModelViewSet):
         serializer = SensorSerializer(query, many=True)
         return Response(serializer.data)
 
+class ReadingViewSet(ModelViewSet):
+    queryset = SensorReading.objects.all()
+    serializer_class = ReadingSerializer

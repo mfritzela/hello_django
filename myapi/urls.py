@@ -12,5 +12,6 @@ urlpatterns = [
 
 router = routers.DefaultRouter()
 router.register(r'sensors', views.SensorViewSet)
+router.register(r'readings', views.ReadingViewSet)
 
 urlpatterns += router.urls
