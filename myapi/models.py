@@ -25,10 +25,22 @@ class Sensor(models.Model):
 
     def __str__(self) -> str:
         """return a human-readable string for each Sensor object (appears in Admin site etc.)"""
-        return self.vendor_name+" Sensor:"+self.id+" - Location: "+self.location
+        return " ID:"+str(self.id)+" | "+self.vendor_name+" Sensor - Location: "+self.location
 
-
-    
 
 class SensorReading(models.Model):
-    pass
+    # Fields
+    sensorId = models.ForeignKey(Sensor, on_delete=models.CASCADE) 
+    # If the user deletes a sensor, the sensor readings belonging to that sensoor will be deleted
+    reading = models.JSONField() # {'type': 'int', 'value': 5}
+    description = models.TextField()
+    timestamp = models.DateTimeField() # date and time the reading was sent
+
+    # Metadata
+    class Meta:
+        # default ordering of records returned when model type is queried
+        ordering = ['-timestamp']
+
+    def __str__(self) -> str:
+        """return a human-readable string for each Sensor object (appears in Admin site etc.)"""
+        return "Reading: "+str(self.id)+" Sensor:"+str(self.sensorId)+" - Timestamp: "+str(self.timestamp)
