@@ -38,12 +38,13 @@ class SensorViewSet(ModelViewSet):
 class ReadingViewSet(ModelViewSet):
     queryset = SensorReading.objects.all()
     serializer_class = ReadingSerializer
-
-
+    
     def get_queryset(self):
         """
-        Implements filtering by timestamp returns readings created after the selected date  
-        input as URL parameter using the YYYY-MM-DD HH:MM Format.
+        Implements filtering by the following URL parameters:
+        - from_timestamp returns readings created after the selected datetime
+        - timestamp returns readings created at the specific datetime
+        input as  using the YYYY-MM-DD HH:MM Format. (time can be ommited)
         Examples:
         # myapi/readings/?timestamp=2022-11-09
         # myapi/readings/?timestamp=2022-11-08T16:00:00
@@ -51,8 +52,11 @@ class ReadingViewSet(ModelViewSet):
         queryset = super(ReadingViewSet, self).get_queryset()
 
         timestamp = self.request.query_params.get('timestamp')
-        if timestamp is not None:
-            queryset = queryset.filter(timestamp__gt=timestamp)
+        from_timestamp = self.request.query_params.get('from_timestamp')
+        if from_timestamp is not None:
+            queryset = queryset.filter(timestamp__gt=from_timestamp)
+        elif timestamp is not None:
+            queryset = queryset.filter(timestamp=timestamp)
         else:
             queryset = queryset
         return queryset
