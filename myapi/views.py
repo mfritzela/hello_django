@@ -14,6 +14,7 @@ class SensorViewSet(ModelViewSet):
     Includes implementations for the following actions: list, create, update, partial_update, destroy
     Filter sensors by type: /sensors/type/{type}
     Filter sensors by location: /sensors/location/{location}
+    Show readings of a specific sensor: /sensors/{id}/readings
     """
     queryset = Sensor.objects.all()
     serializer_class = SensorSerializer
@@ -34,6 +35,14 @@ class SensorViewSet(ModelViewSet):
         query = Sensor.objects.filter(location=location)
         serializer = SensorSerializer(query, many=True)
         return Response(serializer.data)
+
+    # sensors/{id}/readings GET readings of sensor id = {id}
+    @action(detail=True, url_path='readings', url_name='readings')
+    def sensor_readings(self, request, pk=None):
+        query = SensorReading.objects.filter(sensorId=pk)
+        serializer = ReadingSerializer(query, many=True)
+        return Response(serializer.data)
+
 
 class ReadingViewSet(ModelViewSet):
     queryset = SensorReading.objects.all()
