@@ -15,6 +15,8 @@ class SensorViewSet(ModelViewSet):
     Filter sensors by type: /sensors/type/{type}
     Filter sensors by location: /sensors/location/{location}
     Show readings of a specific sensor: /sensors/{id}/readings
+    Show readings of a specific type of sensor: /sensors/type/{type}/readings
+    Show readings of sensor of specific location: /sensors/location/{location}/readings
     """
     queryset = Sensor.objects.all()
     serializer_class = SensorSerializer
