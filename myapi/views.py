@@ -43,10 +43,17 @@ class SensorViewSet(ModelViewSet):
         serializer = ReadingSerializer(query, many=True)
         return Response(serializer.data)
 
-    # sensors/type/{type}/readings GET readings of sesnsors of type = {type}
+    # sensors/type/{type}/readings GET readings of sensors of type = {type}
     @action(detail=False, url_path=r'type/(?P<type_name>\w+)/readings', url_name='readings-type')
     def sensor_readings_type(self, request, type_name):
         query = SensorReading.objects.filter(sensorId__type=type_name)
+        serializer = ReadingSerializer(query, many=True)
+        return Response(serializer.data)
+
+    # sensors/location/{location}/readings GET readings of sensors of location = {location}
+    @action(detail=False, url_path=r'location/(?P<location>\w+)/readings', url_name='readings-location')
+    def sensor_readings_location(self, request, location):
+        query = SensorReading.objects.filter(sensorId__location= location)
         serializer = ReadingSerializer(query, many=True)
         return Response(serializer.data)
 
