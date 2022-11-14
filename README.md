@@ -10,7 +10,7 @@ There are three types of sensors that can generate readings:
 - Temperature Sensor
 - Acoustic Sensor
 
-The API should be allow the following operations:
+The API should allow the following operations:
 1. Store information about each sensor
 2. Store a sensor reading (belonging to a specific sensor). 
 3. Query the readings 
