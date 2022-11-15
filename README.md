@@ -21,3 +21,5 @@ The responses should be returned paginated with a page size 10.
 
 Django models are the Python classes that represent the objects in the database.
 
+![image](https://user-images.githubusercontent.com/113194115/201877974-217c4487-5b30-46bd-b27a-0c7835f2a914.png)
+
