@@ -20,6 +20,7 @@ class SensorViewSet(ModelViewSet):
     Show readings of a specific sensor: /sensors/{id}/readings
     Show readings of a specific type of sensor: /sensors/type/{type}/readings
     Show readings of sensor of specific location: /sensors/location/{location}/readings
+    Show statistics of readings of specific sensor: /sensors/{id}/readings/stats
     """
     queryset = Sensor.objects.all()
     serializer_class = SensorSerializer
@@ -54,19 +55,23 @@ class SensorViewSet(ModelViewSet):
         query = SensorReading.objects.filter(sensorId=pk)
         # check type of first reading to decide if stats can be calculated
         # cast reading fields to appropriate types and filter by type (to avoid invalid types)
-        if query[0].reading["type"] == "int":
+        if query and query[0].reading["type"] == "int":
             query = query.annotate(
                 reading_value = Cast(KeyTextTransform('value', 'reading'), output_field=IntegerField()),
                 reading_type = Cast(KeyTextTransform('type', 'reading'), output_field=CharField())
             ).filter(reading_type= "int")
-        elif query[0].reading["type"] == "float":
+        elif query and query[0].reading["type"] == "float":
             
             query = query.annotate(
                 reading_value = Cast(KeyTextTransform('value', 'reading'), output_field=FloatField()),
                 reading_type = Cast(KeyTextTransform('type', 'reading'), output_field=CharField())
             ).filter(reading_type= "float")
         else:
-            return Response()
+            if query:
+                content = {'error': "Cannot perform stats calculation for type: '"+str(query[0].reading["type"])+"'"}
+            else:
+                content = {'error': 'Cannot perform stats calculation for empty query set'}
+            return Response(content, status=405)
         query = query.aggregate(Avg('reading_value'), 
                                 Min('reading_value'), 
                                 Max('reading_value'))
