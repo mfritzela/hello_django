@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from django.db.models import Avg, Max, Min, IntegerField, FloatField, CharField
 from django.db.models.functions import Cast
 from django.db.models.fields.json import KeyTextTransform
+from rest_framework.filters import OrderingFilter
 
 # Create your views here.
 
@@ -95,9 +96,13 @@ class SensorViewSet(ModelViewSet):
         return Response(serializer.data)
 
 
+
 class ReadingViewSet(ModelViewSet):
     queryset = SensorReading.objects.all()
     serializer_class = ReadingSerializer
+
+    filter_backends = [OrderingFilter]
+    ordering_fields = ['reading__value']
     
     def get_queryset(self):
         """
