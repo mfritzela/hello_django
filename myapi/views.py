@@ -10,6 +10,7 @@ from django.db.models import Avg, Max, Min, IntegerField, FloatField, CharField
 from django.db.models.functions import Cast
 from django.db.models.fields.json import KeyTextTransform
 from rest_framework.filters import OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
 
 # Create your views here.
 
@@ -96,13 +97,15 @@ class SensorViewSet(ModelViewSet):
         return Response(serializer.data)
 
 
-
 class ReadingViewSet(ModelViewSet):
     queryset = SensorReading.objects.all()
     serializer_class = ReadingSerializer
 
     filter_backends = [OrderingFilter]
-    ordering_fields = ['reading__value']
+    ordering_fields = ['reading__value', 'timestamp']
+
+    filter_backends += [DjangoFilterBackend]
+    filterset_fields = ['sensorId__type', 'sensorId__location']
     
     def get_queryset(self):
         """
