@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  django:
+    build: .
+    container_name: django
+    command: python3 manage.py runserver 0.0.0.0:8000
+    env_file:
+      - ./hellodjango_project/.env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+# TODO: add volume?
+  db:
+    image: postgres
+    container_name: pgdb
+    environment:
+      - POSTGRES_DB=testdb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mysecretpassword
+    ports:
+      - "5432:5432"
