@@ -8,6 +8,7 @@ media
 
 # env
 hellodjango_project/.env
+.env
 
 # Python vEnvironments 
 .hellodj_venv
