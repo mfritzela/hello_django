@@ -26,3 +26,7 @@ COPY . .
 # Document port to be exposed (does not actually expose port)
 EXPOSE 8000
 
+# CMD: Command to be run when running a container created from this image
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod u+x /docker-entrypoint.sh
+CMD ["/docker-entrypoint.sh"]

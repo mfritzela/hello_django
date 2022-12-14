@@ -4,7 +4,8 @@ services:
   django:
     build: .
     container_name: django
-    command: python3 manage.py runserver 0.0.0.0:8000
+    #command: python3 manage.py runserver 0.0.0.0:8000
+    #entrypoint: docker-entrypoint.sh
     env_file:
       - ./hellodjango_project/.env
     ports:
@@ -22,7 +23,7 @@ services:
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 1m30s
       timeout: 30s
       retries: 5
