@@ -22,3 +22,7 @@ RUN pip install -r requirements.txt
 
 # Copy project
 COPY . .
+
+# Document port to be exposed (does not actually expose port)
+EXPOSE 8000
+

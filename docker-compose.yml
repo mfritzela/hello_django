@@ -11,11 +11,16 @@ services:
       - "8000:8000"
     depends_on:
       - db
-# TODO: add volume?
+
   db:
     image: postgres
+    volumes:
+      - dbdata:/var/lib/postgresql/data
     container_name: pgdb
     env_file:
       - .env
     ports:
       - "5432:5432"
+
+volumes:
+  dbdata:
