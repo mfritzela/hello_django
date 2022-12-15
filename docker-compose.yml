@@ -4,8 +4,7 @@ services:
   django:
     build: .
     container_name: django
-    #command: python3 manage.py runserver 0.0.0.0:8000
-    #entrypoint: docker-entrypoint.sh
+    entrypoint: ./docker-entrypoint.sh
     env_file:
       - ./hellodjango_project/.env
     ports:
