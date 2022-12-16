@@ -21,3 +21,7 @@ hellodjango_project/.env
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
+
+# Git
+.git
+.gitignore
