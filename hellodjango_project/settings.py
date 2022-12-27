@@ -83,8 +83,8 @@ WSGI_APPLICATION = 'hellodjango_project.wsgi.application'
 DATABASES = {
     'default': {
        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-       'NAME': 'testdb',                      
-       'USER': 'postgres',
+       'NAME': os.getenv('POSTGRES_DB'),                      
+       'USER': os.getenv('POSTGRES_USER'),
        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
        'HOST': 'db',                      
        'PORT': '5432',                      
